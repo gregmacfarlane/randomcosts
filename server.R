@@ -1,5 +1,7 @@
 library(shiny)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(tibble)
 source("R/equivalence_functions.R")
 
 # generate a problem: initial present value, one or more annuities, and betweeen
@@ -104,7 +106,7 @@ problem_to_diagram <- function(problem) {
   }
 
   # Create a data frame for the cash flows
-  cash_flows <- data.frame(
+  cash_flows <- tibble::tibble(
     Year = 0:years,
     Present = c(present_value, rep(0, years)),
     Annuity = c(0, rep(annuities, years)),
