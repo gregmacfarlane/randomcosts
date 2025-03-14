@@ -14,8 +14,8 @@ shinyUI(fluidPage(
       actionButton("simulate", "Generate a problem!"),
       # Output: Text for problem
       htmlOutput("problemText"),
-
       # have a hidden text output with the result
+      checkboxInput("showButton", "Show the answer", value = FALSE, width = NULL),
       htmlOutput("solution")
     ),
     

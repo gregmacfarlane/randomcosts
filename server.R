@@ -150,9 +150,15 @@ shinyServer(function(input, output) {
     })
 
     output$solution <- renderText({
-      paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span>")
+      if (input$showButton == 1) {
+        paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span>")
+      } else {
+        paste("")
+      }
+
     })
   })
+
 
 
 
