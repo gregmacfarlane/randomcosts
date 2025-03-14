@@ -103,20 +103,9 @@ problem_to_diagram <- function(problem) {
 }
 
 
-problem <- generate_problem()
 
 # Define server logic
 shinyServer(function(input, output) {
-  
-  # Generate a plot of the data
-  output$distPlot <- renderPlot({
-    problem_to_diagram(problem)
-  })
-
-  output$problemText <- renderText({
-    problem_to_text(problem)
-  })
-
 
   output$info <- renderUI({
     HTML("<p>This is a simple cash flow generator. It generates a random present 
@@ -128,5 +117,15 @@ shinyServer(function(input, output) {
   # Generate text output
   output$text <- renderText({
     paste("Cash Flow Diagram", input$title)
+  })
+
+  observeEvent(input$simulate, {
+    problem <<- generate_problem(input$seed)
+    output$distPlot <- renderPlot({
+      problem_to_diagram(problem)
+    })
+    output$problemText <- renderText({
+      problem_to_text(problem)
+    })
   })
 })
