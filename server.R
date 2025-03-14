@@ -67,6 +67,27 @@ problem_to_text <- function(problem) {
   return(text_problem)
 }
 
+# solve the net present value for a problem
+solve_npv <- function(problem) {
+  # Extract the values from the problem
+  present_value <- problem$present_value
+  annuities <- problem$annuities
+  future_values <- problem$future_values
+  interest_rate <- problem$interest_rate
+
+  years <- length(problem$future_values)
+  # Calculate the NPV
+  npv <- present_value + atop(annuities, interest_rate / 100, years)
+
+  for (year in 1:years) {
+    if (!is.null(future_values[[year]])) {
+      npv <- npv + ftop(future_values[[year]], interest_rate / 100, year)
+    }
+  }
+
+  return(npv)
+}
+
 
 # turn the problem into a diagram using ggplot
 problem_to_diagram <- function(problem) {
