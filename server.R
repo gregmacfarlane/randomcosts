@@ -117,7 +117,6 @@ problem_to_diagram <- function(problem) {
   ggplot2::ggplot(cash_flows, aes(x = Year, y = CashFlow)) +
     ggplot2::geom_bar(stat = "identity") +
     ggplot2::geom_text(aes(label = CashFlow), vjust = 0) + 
-    ggplot2::geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
     ggplot2::labs(x = "Year", y = "Cash Flow") +
     ggplot2::theme_minimal()
 }
