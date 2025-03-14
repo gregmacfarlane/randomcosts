@@ -151,7 +151,9 @@ shinyServer(function(input, output) {
 
     output$solution <- renderText({
       if (input$showButton == 1) {
-        paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span>")
+        paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span><br> 
+              Note that this value is obtained with functions; if you are using
+              factor tables you may be off a bit, but would still be marked correct.")
       } else {
         paste("")
       }
