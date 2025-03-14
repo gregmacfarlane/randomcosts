@@ -4,19 +4,19 @@ source("R/equivalence_functions.R")
 
 # generate a problem: initial present value, one or more annuities, and betweeen
 # 0 and 3 future values
-generate_problem <- function(seed = 10) {
+generate_problem <- function(seed) {
 
   set.seed(seed)
-  # generate a random length of project (1 to 10 years)
-  project_length <- sample(1:10, 1)
+  # generate a random length of project (3 to 7 years)
+  project_length <- sample(3:7, 1)
   # Generate a random present value (-1000 to -10000)
-  present_value <- sample(1:10, 1) * -1000
+  present_value <- sample(seq(500, 3000, 500), 1) * -1
 
   # Generate a random annuity (100 to 1000)
-  annuity <- sample(1:10, 1) * 100
+  annuity <- sample(2:10, 1) * 100
 
-  # Generate a random number of future values (0 to 3)
-  num_future_values <- sample(1:3, 1)
+  # Generate a random number of future values (1 to 2)
+  num_future_values <- sample(1:2, 1)
   # pick random years in project length for the future values
   future_years <- sample(1:project_length, num_future_values, replace = FALSE)
   # pick random future values -500 to 500
@@ -24,7 +24,7 @@ generate_problem <- function(seed = 10) {
   # Generate a vector of length project_length with num_future_values non-missing values
   futures <- rep(NA, project_length)
   futures[future_years] <- future_values
-
+  
 
   # Generate a random interest rate (0.01 to 0.1)
   rates <- c(0.005, 0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 
