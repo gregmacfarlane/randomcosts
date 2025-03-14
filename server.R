@@ -22,10 +22,6 @@ generate_problem <- function(seed = 10) {
   # pick random future values -500 to 500
   future_values <- sample(c(-5:-1, 1:5), num_future_values) * 100
 
-  futures <- list()
-  for (i in 1:num_future_values) {
-    futures[[future_years[i]]] <- future_values[i]
-  }
 
   # Generate a random interest rate (0.01 to 0.1)
   rates <- c(0.005, 0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 
@@ -53,9 +49,9 @@ problem_to_text <- function(problem) {
   
   # Add future values to the text problem
   future_text <- paste("In the following years, you have future values of: <ul> ")
-  for (year in seq_along(future_values)) {
-    if (!is.null(future_values[[year]])) {
-        future_text <- paste(future_text, "<li>", future_values[[year]], " in year ", year, "</li>")
+  for (year in 1:length(future_values)) {
+    if (!is.na(future_values[year])) {
+        future_text <- paste(future_text, "<li>", future_values[year], " in year ", year, "</li>")
     }
   }
 
@@ -80,8 +76,8 @@ solve_npv <- function(problem) {
   npv <- present_value + atop(annuities, interest_rate / 100, years)
 
   for (year in 1:years) {
-    if (!is.null(future_values[[year]])) {
-      npv <- npv + ftop(future_values[[year]], interest_rate / 100, year)
+    if (!is.na(future_values[year])) {
+      npv <- npv + ftop(future_values[year], interest_rate / 100, year)
     }
   }
 
@@ -99,8 +95,8 @@ problem_to_diagram <- function(problem) {
   # turn future_values into a vector with zeros for missing values
   fv <- vector("numeric", length = 1 + years)
   for(i in 1:years) {
-    if (!is.null(problem$future_values[[i]])) {
-      fv[i + 1] <- problem$future_values[[i]]
+    if (!is.na(problem$future_values[i])) {
+      fv[i + 1] <- problem$future_values[i]
     }
   }
 
