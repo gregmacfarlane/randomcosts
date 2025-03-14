@@ -9,11 +9,14 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       htmlOutput("info"),
-    # Input: Numeric entry for seed number
-    numericInput("seed", "Seed Number:", value = 1),
-    actionButton("simulate", "Generate a problem!"),
+      # Input: Numeric entry for seed number
+      numericInput("seed", "Seed Number:", value = 1),
+      actionButton("simulate", "Generate a problem!"),
       # Output: Text for problem
-      htmlOutput("problemText")
+      htmlOutput("problemText"),
+
+      # have a hidden text output with the result
+      htmlOutput("solution")
     ),
     
     mainPanel(

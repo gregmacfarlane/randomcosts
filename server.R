@@ -21,6 +21,9 @@ generate_problem <- function(seed = 10) {
   future_years <- sample(1:project_length, num_future_values, replace = FALSE)
   # pick random future values -500 to 500
   future_values <- sample(c(-5:-1, 1:5), num_future_values) * 100
+  # Generate a vector of length project_length with num_future_values non-missing values
+  futures <- rep(NA, project_length)
+  futures[future_years] <- future_values
 
 
   # Generate a random interest rate (0.01 to 0.1)
@@ -138,11 +141,21 @@ shinyServer(function(input, output) {
 
   observeEvent(input$simulate, {
     problem <<- generate_problem(input$seed)
+    npv <<- solve_npv(problem)
+
     output$distPlot <- renderPlot({
       problem_to_diagram(problem)
     })
     output$problemText <- renderText({
       problem_to_text(problem)
     })
+
+    output$solution <- renderText({
+      paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span>")
+    })
   })
+
+
+
+
 })
