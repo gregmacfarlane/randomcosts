@@ -11,11 +11,11 @@ generate_problem <- function(seed) {
   set.seed(seed)
   # generate a random length of project (3 to 7 years)
   project_length <- sample(3:7, 1)
-  # Generate a random present value (-1000 to -10000)
+  # Generate a random present value (-500 to -5000)
   present_value <- sample(seq(500, 3000, 500), 1) * -1
 
-  # Generate a random annuity (100 to 1000)
-  annuity <- sample(2:10, 1) * 100
+  # Generate a random annuity (300 to 1000)
+  annuity <- sample(3:10, 1) * 100
 
   # Generate a random number of future values (1 to 2)
   num_future_values <- sample(1:2, 1)
@@ -165,7 +165,12 @@ shinyServer(function(input, output) {
       problem_to_diagram(problem)
     })
     output$problemText <- renderText({
-      problem_to_text(problem)
+      if(input$showProblem == 1) {
+        problem_to_text(problem)
+      } else {
+        paste("")
+      }
+
     })
 
     output$solution <- renderText({
