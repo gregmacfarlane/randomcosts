@@ -147,7 +147,8 @@ shinyServer(function(input, output) {
   output$info <- renderUI({
     HTML("<p>This is a simple cash flow generator. It generates a random present 
          value, annuity, and future values.  It also generates a random interest 
-         rate. The cash flows are then plotted on a bar chart. Changing the number
+         rate. The cash flows are then plotted on a bar chart. Practice calculating
+         the NPV and the IRR using this tool. Changing the number
          below will change the problem that you see. </p>")
   })
 
