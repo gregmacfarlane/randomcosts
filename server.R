@@ -69,12 +69,16 @@ problem_to_text <- function(problem) {
 }
 
 # solve the net present value for a problem
-solve_npv <- function(problem) {
+solve_npv <- function(problem, interest_rate = NULL) {
   # Extract the values from the problem
   present_value <- problem$present_value
   annuities <- problem$annuities
   future_values <- problem$future_values
-  interest_rate <- problem$interest_rate
+
+  # if the interest rate is not provided, use the one from the problem
+  if(is.null(interest_rate)) {
+    interest_rate <- problem$interest_rate
+  }
 
   years <- length(problem$future_values)
   # Calculate the NPV
@@ -87,6 +91,18 @@ solve_npv <- function(problem) {
   }
 
   return(npv)
+}
+
+# find the internal rate of return for the problem
+find_irr <- function(problem) {
+  # the IRR is the interest rate that makes the NPV equal to zero
+
+  # use the solve_npv function to find the IRR
+  irr <- uniroot(function(x) solve_npv(problem, x), 
+                 interval = c(-30, 50), 
+                 tol = .Machine$double.eps^0.25)$root
+  # return the IRR
+  return(irr)
 }
 
 
@@ -143,6 +159,7 @@ shinyServer(function(input, output) {
   observeEvent(input$simulate, {
     problem <<- generate_problem(input$seed)
     npv <<- solve_npv(problem)
+    irr <<- find_irr(problem)
 
     output$distPlot <- renderPlot({
       problem_to_diagram(problem)
@@ -153,9 +170,10 @@ shinyServer(function(input, output) {
 
     output$solution <- renderText({
       if (input$showButton == 1) {
-        paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span><br> 
-              Note that this value is obtained with functions; if you are using
-              factor tables you may be off a bit, but would still be marked correct.")
+        paste("<span style='color:red;'>The net present value is", round(npv, 2), "</span><br>",
+              "<span style='color:blue;'>The IRR is ", round(irr, 2), "%</span><br>",
+              "Note that this value is obtained with functions; if you are using",
+              "factor tables you may be off a bit, but would still be marked correct.")
       } else {
         paste("")
       }
