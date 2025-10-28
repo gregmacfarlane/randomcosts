@@ -97,10 +97,16 @@ solve_npv <- function(problem, interest_rate = NULL) {
 find_irr <- function(problem) {
   # the IRR is the interest rate that makes the NPV equal to zero
 
+  irr <- NA
   # use the solve_npv function to find the IRR
-  irr <- uniroot(function(x) solve_npv(problem, x), 
-                 interval = c(-30, 50), 
-                 tol = .Machine$double.eps^0.25)$root
+  tryCatch(
+    irr <- uniroot(function(x) solve_npv(problem, x), 
+                  interval = c(-30, 50), 
+                  tol = .Machine$double.eps^0.25)$root,
+    error = function(e) {
+      warning("IRR is not defined")
+    } 
+  )
   # return the IRR
   return(irr)
 }
