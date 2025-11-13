@@ -11,7 +11,9 @@ files = [
   '/.posit/publish/randomcosts-JIHB.toml',
   '/.posit/publish/deployments/deployment-CKPJ.toml',
   '/ui.R',
-  '/R/equivalence_functions.R'
+  '/R/equivalence_functions.R',
+  '/R',
+  '/.posit'
 ]
 title = 'randomcosts'
 
