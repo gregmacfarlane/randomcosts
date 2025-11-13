@@ -100,9 +100,10 @@ find_irr <- function(problem) {
   irr <- NA
   # use the solve_npv function to find the IRR
   tryCatch(
-    irr <- uniroot(function(x) solve_npv(problem, x), 
-                  interval = c(-30, 50), 
-                  tol = .Machine$double.eps^0.25)$root,
+    irr <- optim(0, function(x) abs(solve_npv(problem, x)), 
+                 method = "Brent", 
+                 lower = -1000, 
+                 upper = 1000)$par,
     error = function(e) {
       warning("IRR is not defined")
     } 
@@ -198,3 +199,4 @@ shinyServer(function(input, output) {
 
 
 })
+
